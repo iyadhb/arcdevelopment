@@ -21,7 +21,7 @@ function ElevationScroll(props) {
 const Header = () => {
     return (
         <ElevationScroll>
-            <AppBar>
+            <AppBar position="fixed" color='primary'>
             <Toolbar>
             Arc Development
             </Toolbar>
