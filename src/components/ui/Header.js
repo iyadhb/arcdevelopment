@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
+import React, { useState, useEffect } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button'
-import { Link } from 'react-router-dom'
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem'
 
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/logo.svg';
 
 
 function ElevationScroll(props) {
@@ -59,9 +61,21 @@ const useStyles = makeStyles(theme => ({
 const Header = (props) => {
     const classes = useStyles();
     const [value, setValue] = useState(0);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const handelChange = (e, value) => {
         setValue(value)
+    };
+
+    const handelClick = (e) => {
+        setAnchorEl(e.currentTarget)
+        setOpen(true)
+    }
+
+    const handelClose = (e) => {
+        setAnchorEl(null)
+        setOpen(false)
     }
 
     useEffect(() => {
@@ -94,7 +108,15 @@ const Header = (props) => {
 
                 <Tabs value={value} onChange={handelChange} indicatorColor="primary" className={classes.tabContainer}>
                     <Tab className={classes.tab} component={Link} to="/" label="Home" />
-                    <Tab className={classes.tab} component={Link} to="/services" label="Services" />
+                    
+                    <Tab
+                    aria-owns={anchorEl ? "simple-menu" : undefined}
+                    aria-haspopup={anchorEl ? "true" : undefined}
+                    className={classes.tab}
+                    component={Link}
+                    onMouseOver={event => handelClick(event)}
+                    to="/services" label="Services" />
+
                     <Tab className={classes.tab} component={Link} to="/revolution" label="The Revolution" />
                     <Tab className={classes.tab} component={Link} to="/about" label="About Us" />
                     <Tab className={classes.tab} component={Link}to="/contact" label="Contact Us" />
@@ -102,6 +124,20 @@ const Header = (props) => {
                 <Button variant="contained" color="secondary" className={classes.button}>
                 Free Estimate
                 </Button>
+
+                <Menu id="simple-menu" anchorEl={anchorEl} open={open}
+                onClose={handelClose}
+                MenuListProps={{onMouseLeave: handelClose}}
+                >
+                    <MenuItem onClick={handelClose}>Custom Software Development</MenuItem>
+
+                    <MenuItem onClick={handelClose}>Mobile App Development</MenuItem>
+
+                    <MenuItem onClick={handelClose}>Website Development</MenuItem>
+                
+                </Menu>
+
+        
                 
             
                 </Toolbar>
