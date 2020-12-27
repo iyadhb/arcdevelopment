@@ -75,6 +75,7 @@ const Header = (props) => {
     const [value, setValue] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handelChange = (e, value) => {
         setValue(value)
@@ -85,10 +86,18 @@ const Header = (props) => {
         setOpen(true)
     }
 
+    const handleMenuItemClick = (e, i) => {
+        setAnchorEl(null);
+        setOpen(false);
+        setSelectedIndex(i)
+    }
+
     const handelClose = (e) => {
         setAnchorEl(null)
         setOpen(false)
     }
+
+    const menuOptions = [{name: "Services", Link: "/services"}, {name: "Custom Software Development", link: "/customsoftware"}, {name: "Mobile App Development", link: "/mobileapps"}, {name: "Webiste Development", link: "/websites"}]
 
     useEffect(() => {
         if (window.location.pathname === "/" && value !== 0){
@@ -104,6 +113,67 @@ const Header = (props) => {
         } else if (window.location.pathname === "/estimate" && value !== 5){
             setValue(5)
         }
+
+        switch (window.location.pathname) {
+            case "/":
+                if (value !==0) {
+                    setValue(0)
+                }
+                break;
+            case "/services":
+                if (value !==1) {
+                    setValue(1)
+                    setSelectedIndex(0)
+                }
+                break;
+            case "/customsoftware":
+                if (value !==1) {
+                    setValue(1);
+                    setSelectedIndex(1)
+                }
+                break;
+            case "/mobileapps":
+                if (value !==1) {
+                    setValue(1);
+                    setSelectedIndex(2)
+                }
+                break;
+            case "/websites":
+                if (value !==1) {
+                    setValue(1);
+                    setSelectedIndex(3)
+                }
+                break;
+            case "/revolution":
+                if (value !==2) {
+                    setValue(2)
+                }
+                break;
+            
+                
+             case "/about":
+                if (value !==3) {
+                    setValue(3)
+                };
+                break;
+            
+             case "/contact":
+                if (value !==4) {
+                    setValue(4)
+                }
+            break;
+            
+             case "/estimate":
+                if (value !==5) {
+                    setValue(5)
+                }
+            break;
+            
+            
+            default:
+                break;
+        }
+
            
     }, [value])
     return (
@@ -146,32 +216,17 @@ const Header = (props) => {
                 MenuListProps={{onMouseLeave: handelClose}}
                 elevation={0}
                 >
-                    <MenuItem 
-                    onClick={() => {handelClose(); setValue(1)}}
-                    component={Link}
-                    to="/services"
-                    classes={{root: classes.menuItem}}
-                    >Services
-                    </MenuItem>
-
-                    <MenuItem 
-                    onClick={() => {handelClose(); setValue(1)}}
-                    component={Link} to="/customsoftware" 
-                     classes={{root: classes.menuItem}}
-                    >Custom Software Development
-                    </MenuItem>
-
-                     <MenuItem 
-                    onClick={() => {handelClose(); setValue(1)}}
-                    component={Link} to="/mobileapps"
-                     classes={{root: classes.menuItem}}
-                    >Mobile Apps Development
-                    </MenuItem>
-
-                     <MenuItem 
-                    onClick={() => {handelClose(); setValue(1)}}
-                    component={Link} to="/websites">Website Development
-                    </MenuItem>
+                    {menuOptions.map((option, i) => (
+                        <MenuItem key={option}
+                        component={Link} to={option.link}
+                        classes={{root: classes.menuItem}}
+                        onClick={(event) =>
+                        {handleMenuItemClick(event, i); setValue(1);handelClose()}}
+                        selected={i === selectedIndex && value === 1}
+                        >
+                        {option.name}
+                        </MenuItem>
+                    ))}
 
                 
                 
