@@ -55,6 +55,18 @@ const useStyles = makeStyles(theme => ({
       marginLeft: "50px",
       height: "45px",
      
+    },
+    menu: {
+        backgroundColor: theme.palette.common.blue,
+        color: "white",
+        borderRadius: "0px",
+    },
+    menuItem: {
+        ...theme.typography.tab,
+        opacity: 0.7,
+        "&:hover": {
+            opacity: 1,
+        }
     }
 }))
 
@@ -125,23 +137,35 @@ const Header = (props) => {
                 Free Estimate
                 </Button>
 
-                <Menu id="simple-menu" anchorEl={anchorEl} open={open}
+                <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                open={open}
                 onClose={handelClose}
+                classes={{paper: classes.menu}}
                 MenuListProps={{onMouseLeave: handelClose}}
+                elevation={0}
                 >
                     <MenuItem 
                     onClick={() => {handelClose(); setValue(1)}}
-                    component={Link} to="/services">Services
+                    component={Link}
+                    to="/services"
+                    classes={{root: classes.menuItem}}
+                    >Services
                     </MenuItem>
 
                     <MenuItem 
                     onClick={() => {handelClose(); setValue(1)}}
-                    component={Link} to="/customsoftware">Custom Software Development
+                    component={Link} to="/customsoftware" 
+                     classes={{root: classes.menuItem}}
+                    >Custom Software Development
                     </MenuItem>
 
                      <MenuItem 
                     onClick={() => {handelClose(); setValue(1)}}
-                    component={Link} to="/mobileapps">Mobile Apps Development
+                    component={Link} to="/mobileapps"
+                     classes={{root: classes.menuItem}}
+                    >Mobile Apps Development
                     </MenuItem>
 
                      <MenuItem 
