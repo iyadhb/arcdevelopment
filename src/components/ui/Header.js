@@ -129,11 +129,27 @@ const Header = (props) => {
                 onClose={handelClose}
                 MenuListProps={{onMouseLeave: handelClose}}
                 >
-                    <MenuItem onClick={handelClose}>Custom Software Development</MenuItem>
+                    <MenuItem 
+                    onClick={() => {handelClose(); setValue(1)}}
+                    component={Link} to="/services">Services
+                    </MenuItem>
 
-                    <MenuItem onClick={handelClose}>Mobile App Development</MenuItem>
+                    <MenuItem 
+                    onClick={() => {handelClose(); setValue(1)}}
+                    component={Link} to="/customsoftware">Custom Software Development
+                    </MenuItem>
 
-                    <MenuItem onClick={handelClose}>Website Development</MenuItem>
+                     <MenuItem 
+                    onClick={() => {handelClose(); setValue(1)}}
+                    component={Link} to="/mobileapps">Mobile Apps Development
+                    </MenuItem>
+
+                     <MenuItem 
+                    onClick={() => {handelClose(); setValue(1)}}
+                    component={Link} to="/websites">Website Development
+                    </MenuItem>
+
+                
                 
                 </Menu>
 
