@@ -112,8 +112,13 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.common.orange,
     },
     drawerItemSelected: {
-        opacity: 1,
+        "& .MuiListItemText-root": {
+            opacity: 1
+        },  
     },
+    appBar: {
+        zIndex: theme.zIndex.modal + 1,
+    }
 }))
 
 const Header = (props) => {
@@ -158,7 +163,7 @@ const Header = (props) => {
       selectedIndex: 1
     },
     {
-      name: "iOS/Android App Development",
+      name: "App Development",
       link: "/mobileapps",
       activeIndex: 1,
       selectedIndex: 2
@@ -223,10 +228,11 @@ const Header = (props) => {
                 classes={{paper: classes.menu}}
                 MenuListProps={{onMouseLeave: handelClose}}
                 elevation={0}
+                style={{zIndex: 1302}}
                 keepMounted
                 >
                     {menuOptions.map((option, i) => (
-                        <MenuItem key={option}
+                        <MenuItem key={`${option}${i}`}
                         component={Link} to={option.link}
                         classes={{root: classes.menuItem}}
                         onClick={(event) =>
@@ -246,11 +252,19 @@ const Header = (props) => {
             <SwipeableDrawer disableBackdropTransition={!iOS} disableDiscovery={iOS} open={openDrawer} onClose={() => setOpenDrawer(false)} onOpen={()=> setOpenDrawer(true)}
             classes={{paper: classes.drawer}}
             >
-
+            <div className={classes.toolbarMargin} />
            <List disablePadding>
            {routes.map(route => (
-               <ListItem divider key={`${route}${route.activeIndex}`} button component={Link} to={route.link} selected={value === route.activeIndex} onClick={() => {setOpenDrawer(false); setValue(route.activeIndex)}}>
-               <ListItemText className={ value === route.activeIndex ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} disableTypography>{route.name}</ListItemText>
+               <ListItem
+               divider 
+               key={`${route}${route.activeIndex}`} 
+               button 
+               component={Link} to={route.link} 
+               selected={value === route.activeIndex}
+                classes={{selected: classes.drawerItemSelected}}
+               onClick={() => {setOpenDrawer(false); setValue(route.activeIndex)}}>
+
+               <ListItemText className={classes.drawerItem} disableTypography>{route.name}</ListItemText>
                </ListItem>
 
            ))}
@@ -258,11 +272,17 @@ const Header = (props) => {
 
            
 
-           <ListItem onClick={() => {setOpenDrawer(false); setValue(5)}} divider button component={Link} to="/estimate"
-           className={classes.drawerItemEstimate}
+           <ListItem 
+           onClick={() => {setOpenDrawer(false); setValue(5)}}
+           divider 
+           button 
+           component={Link} to="/estimate"
+           classes={{root: classes.drawerItemEstimate, selected: classes.drawerItemSelected}}
            selected={value === 5}
            >
-                <ListItemText className={value === 5 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} disableTypography>Free Estimate</ListItemText>
+                <ListItemText 
+                className={classes.drawerItem} 
+                disableTypography>Free Estimate</ListItemText>
            </ListItem>
     
            </List>
@@ -279,7 +299,7 @@ const Header = (props) => {
     return (
         <React.Fragment>
             <ElevationScroll>
-                <AppBar position="fixed" color='primary'>
+                <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar disableGutters>
                 <Button component={Link} to="/" 
                 disableRipple
